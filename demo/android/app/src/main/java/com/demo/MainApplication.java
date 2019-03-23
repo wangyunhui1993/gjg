@@ -10,6 +10,14 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 
+
+import com.learnium.RNDeviceInfo.RNDeviceInfo;
+import com.github.kevinejohn.keyevent.KeyEventPackage;
+import com.github.yamill.orientation.OrientationPackage; 
+import org.devio.rn.splashscreen.SplashScreenReactPackage;
+import com.rnimmersive.RNImmersivePackage;
+
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -32,6 +40,13 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
               new TakeViewPackage(),
+							
+							new RNDeviceInfo(),
+					new KeyEventPackage(),
+					new OrientationPackage(),
+					new SplashScreenReactPackage(),
+					new RNImmersivePackage(),
+							
           new MainReactPackage()
       );
     }

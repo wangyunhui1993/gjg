@@ -24,7 +24,7 @@ type Props = {};
 export default class App extends Component<Props> {
 			componentWillMount () {
 				console.log(123456);
-	  //注册接收器
+				//注册接收器
 	      DeviceEventEmitter.addListener('testData', e => {   //for Android
 				console.log(456);
 	          ToastAndroid.show(e.data, 2000);
