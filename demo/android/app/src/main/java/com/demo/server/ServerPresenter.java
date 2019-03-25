@@ -27,7 +27,7 @@ public class ServerPresenter {
     private static final int VALUE_STOPPED = 200;
 
     private static final int VALUE_ERROR = 300;
-
+	private static final String TAG = "ServerPresenter";
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -63,23 +63,23 @@ public class ServerPresenter {
     }
 
     public void startServer(Context context) {
-        Log.i("server","动作：启动服务器");
+        Log.i(TAG,"动作：启动服务器");
         context.startService(new Intent(context, ServerService.class));
     }
 
     public void stopServer(Context context) {
-        Log.i("server","动作：停止服务器");
+        Log.i(TAG,"动作：停止服务器");
         context.stopService(new Intent(context, ServerService.class));
     }
 
-    public void unregister(Context context) {
-        Log.i("server","unregister：服务器unregister");
+    public void unregister(Context context) { 
+        Log.i(TAG,"unregister：服务器unregister");
         context.unregisterReceiver(broadcastReceiver);
         this.serverChangeListener = null;
     }
 
     public static void onServerStarted(Context context, String ipAddress) {
-        Log.i("server","onServerStarted：服务器onServerStarted");
+        Log.i(TAG,"onServerStarted：服务器onServerStarted");
         Intent intent = new Intent(ACTION_SERVER_CHANGE);
         intent.putExtra(KEY_SERVER_STATE, VALUE_STARTED);
         intent.putExtra(KEY_SERVER_MESSAGE, ipAddress);
@@ -87,14 +87,14 @@ public class ServerPresenter {
     }
 
     public static void onServerStopped(Context context) {
-        Log.i("server","onServerStopped：服务器onServerStopped");
+        Log.i(TAG,"onServerStopped：服务器onServerStopped");
         Intent intent = new Intent(ACTION_SERVER_CHANGE);
         intent.putExtra(KEY_SERVER_STATE, VALUE_STOPPED);
         context.sendBroadcast(intent);
     }
 
     public static void onServerError(Context context, String message) {
-        Log.i("server","onServerError：服务器onServerError");
+        Log.i(TAG,"onServerError：服务器onServerError");
         Intent intent = new Intent(ACTION_SERVER_CHANGE);
         intent.putExtra(KEY_SERVER_STATE, VALUE_ERROR);
         intent.putExtra(KEY_SERVER_MESSAGE, message);

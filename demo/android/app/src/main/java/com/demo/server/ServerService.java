@@ -44,10 +44,10 @@ public class ServerService extends Service {
 
     @Override
     public void onCreate() {
-        Log.i("KathyonCreate1","onCreate - Thread ID = " + Thread.currentThread().getId());
-        super.onCreate();
+        Log.i(TAG, "服务器onCreate - Thread ID = " + Thread.currentThread().getId());
+//         super.onCreate();
 
-        server = AndServer.serverBuilder()
+			server = AndServer.serverBuilder()
                 .inetAddress(NetUtils.getLocalIPAddress())  //服务器要监听的网络地址
                 .port(Constants.PORT_SERVER) //服务器要监听的端口
                 .timeout(10, TimeUnit.SECONDS) //Socket超时时间
@@ -81,22 +81,24 @@ public class ServerService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.i("server","服务器状态：服务器启动");
+        Log.i(TAG,"服务器状态：服务器启动");
         startServer();
         return START_STICKY;
     }
 
     @Override
     public void onDestroy() {
-        Log.i("server","服务器状态：服务器已销毁");
+        Log.i(TAG,"服务器状态：服务器已销毁");
         super.onDestroy();
         stopServer();
     }
+	
     public void startServer() {
         //如果Server已启动则不再重复启动，此时只是向外发布已启动的状态
-        Log.i("server","服务器状态：服务器已启动");
-
+        Log.i(TAG,"服务器状态：服务器已启动");
+		Log.i(TAG,"服务器状态isRunning："+server.isRunning());
         if (server.isRunning()) {
+			Log.i(TAG,"服务器状态：服务器正在运行着");
             InetAddress inetAddress = server.getInetAddress();
             if (inetAddress != null) {
                 String hostAddress = inetAddress.getHostAddress();
@@ -105,12 +107,13 @@ public class ServerService extends Service {
                 }
             }
         } else {
+			Log.i(TAG,"服务器状态：服务器没在运行着");
             server.startup();
         }
     }
 
     private void stopServer() {
-        Log.i("server","服务器状态：服务器已停止");
+        Log.i(TAG,"服务器状态：服务器已停止");
         if (server != null && server.isRunning()) {
             server.shutdown();
         }

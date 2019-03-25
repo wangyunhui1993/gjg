@@ -65,7 +65,7 @@ public class JsonHandler implements RequestHandler {
 //            e.printStackTrace();
 //        }
 
-        new SendMsg().send("testData");
+        new SendMsg().send("testData","收到客户端发来的消息了");
 
 
         StringEntity stringEntity = new StringEntity("收到demo", "utf-8");

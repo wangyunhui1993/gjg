@@ -28,10 +28,16 @@ export default class Menu extends React.Component {
 		this.setTime();
 		//注册接收器
 	      DeviceEventEmitter.addListener('testData', e => {   //for Android
-				console.log(456);
-	          ToastAndroid.show(e.data, 2000);
+				console.log(e);
+	          ToastAndroid.show(e, 2000);
 	          //更新状态及其他操作
 	      });
+		  
+		  DeviceEventEmitter.addListener('serverState', e => {   //for Android
+		  	console.log(e);
+		     this.setState ({serverState: e});
+		  });
+		  
 		  DeviceInfo.getIPAddress().then(ip => {
 		  this.setState ({IPAddress: ip});
 		});
