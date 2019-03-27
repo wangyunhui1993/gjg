@@ -1,29 +1,27 @@
 package com.demo;
 
 
+import android.app.Activity;
 import android.util.Log;
 
+import com.demo.server.DBServiceImpl;
 import com.demo.utils.SendMsg;
-import com.demo.utils.TestClass;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Callback;
 
 
-import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 
 import java.io.File;
-import java.util.Map;
-import java.util.HashMap;
+import java.util.List;
 
-import com.demo.server.ServerService;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
-
 import android_serialport_api.SerialPort;
+import entity.Stu;
 
 
 /**
@@ -31,13 +29,15 @@ import android_serialport_api.SerialPort;
  * 原生的代码，之后与JS交互
  */
 
-public class TakeViewModule extends ReactContextBaseJavaModule {
-	private ReactContext reactContext;
+public class MethodsModule extends ReactContextBaseJavaModule {
+	private ReactContext myreactContext;
 	private SerialPort serialPort;
-    public TakeViewModule(ReactApplicationContext reactContext) {
+	private DBServiceImpl dbService;
+    public MethodsModule(ReactApplicationContext reactContext) {
         super(reactContext);
         //给上下文对象赋值
 		SendMsg.myContext=reactContext;
+		myreactContext = reactContext;
     }
    
     /**
@@ -48,7 +48,7 @@ public class TakeViewModule extends ReactContextBaseJavaModule {
      * */
     @Override
     public String getName() {
-        return "TakeViewManager";
+        return "MethodsManager";
     }
 	 /**
 	 * 该方法就是给js使用
@@ -83,18 +83,40 @@ public class TakeViewModule extends ReactContextBaseJavaModule {
 
 
 
-//	@ReactMethod
-//	public void addEventCeshi(String name, Callback callback) {
-//// 		ServerService myService = new ServerService();
-//// 		myService.startServer();
-//		// 1.处理业务逻辑...
-////		WritableMap params = Arguments.createMap();
-////		params.putString("data", "AAAA");
-//		Log.i("server","监听器：发送消息");
+	@ReactMethod
+	public void addEventCallback(String name, Callback callback) {
+//		reactContext = (ReactContext) getApplicationContext();
+        dbService = new DBServiceImpl(myreactContext);
+        //新增
+            dbService.add("xiaozhang","001");
+            dbService.add2("xiaoliu","002");
+        //查询
+        List<Stu> stuArrayList = dbService.select1(0,10,"");
+        Log.i("MethodsModule","查询到数据: "+stuArrayList.toString());
+        //修改源数据
+        stuArrayList.get(0).setSnumber("003");
+        Log.i("MethodsModule","修改源数据: "+stuArrayList.toString());
+        dbService.update1(stuArrayList);
+        //修改后再次查询一次
+        List<Stu> stuArrayList2 = dbService.select1(0,10,"");
+        Log.i("MethodsModule","修改数据后,查询到数据: "+stuArrayList2.toString());
+        //删除数据
+        dbService.delete1("1");
+        //查询
+        List<Stu> stuArrayList3 = dbService.select1(0,10,"");
+        Log.i("MethodsModule","删除数据后,查询到数据: "+stuArrayList3.toString());
+
+
+// 		ServerService myService = new ServerService();
+// 		myService.startServer();
+		// 1.处理业务逻辑...
+//		WritableMap params = Arguments.createMap();
+//		params.putString("data", "AAAA");
+		Log.i("MethodsModule","监听器：发送消息");
 //		reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit("testData", "11111");
-//		Log.i("server","监听器：发送消息");
-//		String result = "处理结果：" + name;
-//		// 2.回调RN,即将处理结果返回给RN
-//		callback.invoke(true,result);
-//	}
+		Log.i("MethodsModule","监听器：发送消息");
+		String result = "处理结果：" + name;
+		// 2.回调RN,即将处理结果返回给RN
+		callback.invoke(true,result);
+	}
 }

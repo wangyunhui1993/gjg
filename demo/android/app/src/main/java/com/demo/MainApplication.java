@@ -1,9 +1,8 @@
 package com.demo;
 
 import android.app.Application;
+import android.content.Context;
 
-import com.demo.server.ServerService;
-import com.demo.server.TestOneService;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -21,14 +20,13 @@ import com.rnimmersive.RNImmersivePackage;
 import java.util.Arrays;
 import java.util.List;
 
-import android.content.Intent;
 import com.demo.server.ServerPresenter;
 
 public class MainApplication extends Application implements ReactApplication {
 
   private ServerPresenter serverPresenter;
 
-
+  private static Context context;
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
     @Override
@@ -39,9 +37,9 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
-              new TakeViewPackage(),
+              new MethodsPackage(),
 							
-							new RNDeviceInfo(),
+					new RNDeviceInfo(),
 					new KeyEventPackage(),
 					new OrientationPackage(),
 					new SplashScreenReactPackage(),
@@ -61,10 +59,15 @@ public class MainApplication extends Application implements ReactApplication {
   public ReactNativeHost getReactNativeHost() {
     return mReactNativeHost;
   }
-
+  /**
+   * 获取全局上下文*/
+  public static Context getContext() {
+    return context;
+  }
   @Override
   public void onCreate() {
     super.onCreate();
+    context = getApplicationContext();
 //    serverPresenter.startServer(MainApplication.this);
 //    ServerService s = new ServerService();
 //    s.onCreate();

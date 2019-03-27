@@ -33,9 +33,9 @@ export function DP(length) {
     if (length == null) {
         length = 0;
     }
-    // let result = parseInt(length / (BASE_PIXEL_WIDTH / BASE_PT_RATIO) * w_w);
+    let result = parseInt(length / (BASE_PIXEL_WIDTH / BASE_PT_RATIO) * w_w);
 
-    let result= parseInt(length /(BASE_PT_RATIO / ratio));
+    // let result= parseInt(length /(BASE_PT_RATIO / ratio));
     if (result === 0)
         result = 1;
     return result;

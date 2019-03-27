@@ -16,7 +16,7 @@ import {DP, PX,w_w,h_h} from './Lib/ScreenUtil';
 import Neo from './utils/neo';
 import KeyEvent from 'react-native-keyevent';
 import DeviceInfo from 'react-native-device-info';
-var TakeViewManager = NativeModules.TakeViewManager;
+var MethodsManager = NativeModules.MethodsManager;
 const StateItem = ({index, state}) => (
     <Image  style={styles.feature} source={state===0?require ('./Img/box_empty.png'):state===1?require ('./Img/box_frozen.png'):require ('./Img/box_full.png')}></Image>
 );
@@ -125,10 +125,10 @@ export default class Menu extends React.Component {
   }
 	
 	 ceshi(){
-		  TakeViewManager.addEventCeshi();
-//         TakeViewManager.addEventCeshi(('测试'),(error,events) =>{
-// 					console.log(events);
-//         });
+		  // MethodsManager.addEventCeshi();
+        MethodsManager.addEventCallback(('测试'),(error,events) =>{
+			console.log(events);
+        });
   }
 	op(type){
 		this.ceshi();
@@ -221,18 +221,18 @@ const styles = StyleSheet.create ({
 		paddingLeft:10,
 	},
 	timeText:{
-		fontSize:PX(40)
+		fontSize:20
 	},
 	leftPart:{
-		paddingLeft:PX(10),
+		paddingLeft:DP(10),
 		flexDirection :'column',
 		flexWrap:"wrap",
 		height:h_h*0.85,
 		width:w_w*0.33,
 	},
 	feature:{
-		width:PX(50),
-		height:PX(50)
+		width:DP(15),
+		height:DP(15)
 	},
 	bottomPart:{
 		flexDirection :'row'
@@ -246,8 +246,8 @@ const styles = StyleSheet.create ({
 		flex: 1,
 	},
 	TouchImg:{
-		width: PX(400),
-		height: PX(400),
+		width: DP(100),
+		height: DP(100),
 	},
 	clickImg:{
 		 flex: 1,
@@ -255,8 +255,8 @@ const styles = StyleSheet.create ({
 		// flexDirection: 'column',
 		//backgroundColor: '#F7F7F7',
 		// alignItems: 'center',
-		width: PX(400),
-		height: PX(400),
+		width: DP(100),
+		height: DP(100),
 		//不加这句，就是按照屏幕高度自适应
 		//加上这几，就是按照屏幕自适应
 		// resizeMode: Image.resizeMode.cover,
@@ -265,7 +265,7 @@ const styles = StyleSheet.create ({
 	},
 	title:{
 		color:'#FFD700',
-		fontSize:PX(60),
+		fontSize:DP(18),
 		alignItems: 'center',
 		textAlign:'center',
 	},

@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.util.Log;
 
-import com.facebook.react.bridge.ReactContext;
+import com.demo.MainActivity;
 
 /**
  * 作者：leavesC
@@ -57,7 +57,7 @@ public class ServerPresenter {
 
     private OnServerChangeListener serverChangeListener;
 
-    public ServerPresenter(Context context, OnServerChangeListener serverChangeListener) {
+    public ServerPresenter(MainActivity context, MainActivity serverChangeListener) {
         context.registerReceiver(broadcastReceiver, new IntentFilter(ACTION_SERVER_CHANGE));
         this.serverChangeListener = serverChangeListener;
     }

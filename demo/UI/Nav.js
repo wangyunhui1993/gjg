@@ -11,7 +11,8 @@ import {
 
 import Home from './Home';
 import Menu from './Menu';
-// import Seting from './Seting/Index';
+import Seting from './Seting/Index';
+import BoxProperty from './Seting/BoxProperty';
 export default  MyAPP6 =  StackNavigator(
 {
 		Home: {screen: Home,navigationOptions:{
@@ -20,9 +21,12 @@ export default  MyAPP6 =  StackNavigator(
 		Menu: {screen: Menu,navigationOptions:{
 		   header:null,
 		},},
-// 		Seting: {screen: Seting,navigationOptions:{
-// 		   header:null,
-// 		},},
+		Seting: {screen: Seting,navigationOptions:{
+		   header:null,
+		},},
+		BoxProperty: {screen: BoxProperty,navigationOptions:{
+		   header:null,
+		},},
 		
 		
     
