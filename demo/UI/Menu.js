@@ -9,13 +9,15 @@ import {
   DeviceEventEmitter,
 	NativeModules,
 	Alert,
-	TouchableOpacity
+	TouchableOpacity,
+	TouchableWithoutFeedback
 } from 'react-native';
 import {DP, PX,w_w,h_h} from './Lib/ScreenUtil';
 // import {postForm} from './Coms/commondef';
 import Neo from './utils/neo';
 import KeyEvent from 'react-native-keyevent';
 import DeviceInfo from 'react-native-device-info';
+import KeyBoard from './utils/keyBoard';
 var MethodsManager = NativeModules.MethodsManager;
 const StateItem = ({index, state}) => (
     <Image  style={styles.feature} source={state===0?require ('./Img/box_empty.png'):state===1?require ('./Img/box_frozen.png'):require ('./Img/box_full.png')}></Image>
@@ -41,6 +43,9 @@ export default class Menu extends React.Component {
 		  DeviceInfo.getIPAddress().then(ip => {
 		  this.setState ({IPAddress: ip});
 		});
+		
+		
+		
 	}
   componentWillUnmount () {}
 
@@ -93,15 +98,6 @@ export default class Menu extends React.Component {
 				{state:2},
 			],
 			showCard:false,
-			
-			nodeId:'',
-      cardNumber: '',
-      promptText: '',
-      connectState: true,
-      KeyboardShown: false,
-      modalVisible: true,
-      textColor: '#fff',
-      imgState: true,
 	  serverState:'未知',
 	  IPAddress:'',
     };
@@ -109,9 +105,17 @@ export default class Menu extends React.Component {
     const didFocusSubscription = this.props.navigation.addListener (
       'didFocus',
       payload => {
+		  console.log('绑定键盘事件',KeyEvent);
 		 KeyEvent.onKeyUpListener (keyEvent => {
-		  // this.keyboardEvent (keyEvent);
-		});
+		   KeyBoard.keyboardEvent(keyEvent,code=>{
+		 	  if(this.state.showCard){
+		 		  console.log(code);
+		 	  }else{
+		 		  console.log("无效的刷卡");
+		 	  }
+		 	  
+		   });
+		 });
         
       }
     );
@@ -120,6 +124,7 @@ export default class Menu extends React.Component {
       'didBlur',
       payload => {
 		// didFocusSubscription.remove ();
+		// KeyEvent.removeKeyUpListener()
       }
     );
   }
@@ -131,7 +136,13 @@ export default class Menu extends React.Component {
         });
   }
 	op(type){
-		this.ceshi();
+		console.log(1111);
+		
+		
+		
+		
+		
+		// this.ceshi();
 		this.state.showCard=true;
 	}
 cancal(){
@@ -144,7 +155,7 @@ set(){
 		var body = this.state.showCard?<View  style={styles.pushCardView}>
 						<Image  source={require ('./Img/scan_card_please.png')} style={styles.pushCardImg} />
 						 <TouchableOpacity onPress={this.cancal.bind (this)} style={styles.cancal}>
-								<Text style={{color:"#000"}}>取消</Text>
+								<Text style={{color:"#000",padding:10,fontSize:20,}}>取消</Text>
 						</TouchableOpacity>
 				 </View>:
 				 <View style={styles.body}>
@@ -169,7 +180,7 @@ set(){
 				    <Text style={styles.title}>文件柜管理系统</Text>
 				 		 </View>
 				 		 <View style={styles.opImg}>
-				 		  <TouchableOpacity onPress={()=>this.op(1)}  style={styles.TouchImg}>
+				 		  <TouchableOpacity  onPress={()=>this.op(1)}  style={styles.TouchImg}>
 				 		 								<Image source={require ('./Img/deposit.png')} style={styles.clickImg}></Image>
 				 		 </TouchableOpacity>
 				 		 <TouchableOpacity onPress={()=>this.op(2)} style={styles.TouchImg}>
@@ -293,6 +304,7 @@ const styles = StyleSheet.create ({
 		paddingRight:10,
 		paddingTop:5,
 		paddingBottom:5,
+		borderRadius:5
 	},
 	setView:{
 		position:'absolute',

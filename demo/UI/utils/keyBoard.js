@@ -5,7 +5,7 @@ export default keyBoard = {
 	nextTime: null,
 	lastCode: null,
 	nextCode: null,
-	keyboardEvent: (keyEvent,cb) {
+	keyboardEvent: function(keyEvent,cb) {
 		this.nextCode = keyEvent.keyCode;
 		this.nextTime = new Date().getTime();
 		if (this.lastCode != null && this.lastTime != null && this.nextTime - this.lastTime <= 30) {
