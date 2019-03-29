@@ -100,6 +100,7 @@ export default class Menu extends React.Component {
 			showCard:false,
 	  serverState:'未知',
 	  IPAddress:'',
+	  type:null,
     };
 
     const didFocusSubscription = this.props.navigation.addListener (
@@ -109,7 +110,16 @@ export default class Menu extends React.Component {
 		 KeyEvent.onKeyUpListener (keyEvent => {
 		   KeyBoard.keyboardEvent(keyEvent,code=>{
 		 	  if(this.state.showCard){
-		 		  console.log(code);
+		 		  
+				  let value={
+					  number:code,
+					  cq:this.state.type
+				  }
+				  console.log('发送的信息',value);
+				  MethodsManager.saveThings(JSON.stringify(value),(error,events) =>{
+					console.log(events);
+					ToastAndroid.show(events, ToastAndroid.SHORT);
+				})
 		 	  }else{
 		 		  console.log("无效的刷卡");
 		 	  }
@@ -137,7 +147,7 @@ export default class Menu extends React.Component {
   }
 	op(type){
 		console.log(1111);
-		
+		this.state.type=type;
 		
 		
 		
@@ -147,6 +157,7 @@ export default class Menu extends React.Component {
 	}
 cancal(){
 	this.state.showCard=false;
+	this.state.type=null;
 }
 set(){
 		this.props.navigation.navigate('Seting');
@@ -180,10 +191,10 @@ set(){
 				    <Text style={styles.title}>文件柜管理系统</Text>
 				 		 </View>
 				 		 <View style={styles.opImg}>
-				 		  <TouchableOpacity  onPress={()=>this.op(1)}  style={styles.TouchImg}>
+				 		  <TouchableOpacity  onPress={()=>this.op(0)}  style={styles.TouchImg}>
 				 		 								<Image source={require ('./Img/deposit.png')} style={styles.clickImg}></Image>
 				 		 </TouchableOpacity>
-				 		 <TouchableOpacity onPress={()=>this.op(2)} style={styles.TouchImg}>
+				 		 <TouchableOpacity onPress={()=>this.op(1)} style={styles.TouchImg}>
 				 		 		<Image source={require ('./Img/extraction.png')} style={styles.clickImg}></Image>
 				 		 </TouchableOpacity>
 				 		 </View>

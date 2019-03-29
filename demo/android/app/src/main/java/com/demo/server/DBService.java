@@ -15,4 +15,7 @@ public interface DBService {
     boolean update1(List<Stu> stuList);
 
     boolean delete1(String id);
+
+    String shuaka(String number,int cq);
+
 }

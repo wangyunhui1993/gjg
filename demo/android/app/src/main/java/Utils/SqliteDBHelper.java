@@ -10,9 +10,7 @@ public class SqliteDBHelper extends SQLiteOpenHelper {
     //数据库名称
     public static final String DB_NAME = "chaek123.db";
     //数据表版本
-    public static final int DB_VERSION = 1;
-    //创建 stu_table 表的 sql 语句
-    private static final String stu_table="create table stu_table(_id integer primary key autoincrement,sname text,snumber text)";
+    public static final int DB_VERSION = 2;
 
     public SqliteDBHelper(Context context) {
         // 传递数据库名与版本号给父类
@@ -25,22 +23,30 @@ public class SqliteDBHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // 在这里通过 db.execSQL 函数执行 SQL 语句创建所需要的表
-        // 创建 students 表
-        db.execSQL(stu_table);
-        //实例化常量值
-        ContentValues cValue = new ContentValues();
-        //添加用户名
-        cValue.put("sname","xiaozhang");
-        //添加密码
-        cValue.put("snumber","01007");
-        //调用insert()方法插入数据
-        db.insert("stu_table",null,cValue);
+        // 用户信息表
+        String createSql = "CREATE TABLE userInfo (id integer primary key autoincrement, cardNumber VARCHAR(30), " +
+                "name VARCHAR(32), partment VARCHAR(255), lockFlag integer, userId VARCHAR(30), box VARCHAR(5))";
+        db.execSQL(createSql);
+        //给一个默认用户admin
+        String strSQL = "insert into userInfo(cardNumber, name, partment, lockFlag, userId, box) values('" + 2072485831 + "', '" + "admin" + "' ,'"+"A部门"+"','"+ 0 +"', '"+"001"+"', '"+1+"' )";
+        System.out.println("strSQL > " + strSQL);
+        db.execSQL(strSQL);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        switch (oldVersion){
+            case 1:
+                // 用户信息表
+                String createSql = "CREATE TABLE userInfo (id integer primary key autoincrement, cardNumber VARCHAR(30), " +
+                        "name VARCHAR(32), partment VARCHAR(255), lockFlag integer, userId VARCHAR(30), box VARCHAR(5))";
+                db.execSQL(createSql);
+                //给一个默认用户admin
+                String strSQL = "insert into userInfo(cardNumber, name, partment, lockFlag, userId, box) values('" + 2072485831 + "', '" + "admin" + "' ,'"+"A部门"+"','"+ 0 +"', '"+"001"+"', '"+1+"' )";
+                System.out.println("strSQL > " + strSQL);
+                db.execSQL(strSQL);
+            default:
+        }
     }
 
     @Override

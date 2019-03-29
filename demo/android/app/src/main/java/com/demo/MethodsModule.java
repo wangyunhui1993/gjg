@@ -20,6 +20,12 @@ import java.util.List;
 
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android_serialport_api.SerialPort;
 import entity.Stu;
 
@@ -30,6 +36,7 @@ import entity.Stu;
  */
 
 public class MethodsModule extends ReactContextBaseJavaModule {
+	private static final String TAG = "MethodsModule";
 	private ReactContext myreactContext;
 	private SerialPort serialPort;
 	private DBServiceImpl dbService;
@@ -119,4 +126,30 @@ public class MethodsModule extends ReactContextBaseJavaModule {
 		// 2.回调RN,即将处理结果返回给RN
 		callback.invoke(true,result);
 	}
+
+
+
+
+
+	/*存东西*/
+	@ReactMethod
+	public void saveThings(String value, Callback callback) {
+		Log.i(TAG,"存东西"+value);
+		JSONObject jsonObject = null;
+		try {
+			jsonObject = new JSONObject(value);
+			String number = jsonObject.getString("number");
+			int cq = jsonObject.getInt("cq");
+			Log.i(TAG,"number:"+number+"   cq:"+cq);
+			dbService = new DBServiceImpl(myreactContext);
+			String ret = dbService.shuaka(number,cq);
+			String result = "返回数据：" + ret;
+			callback.invoke(true,ret);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	}
+
+
+
 }
